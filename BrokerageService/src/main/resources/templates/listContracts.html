@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of contracts</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+        tbody tr:hover {
+            background: #9ACD32;
+            color: #fff;
+        }
+        a:link  {
+            color: #008000;
+            text-decoration:underline;
+
+        }
+        a:hover {
+            color: #800000;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        footer .glyphicon {
+            font-size: 20px;
+            margin-bottom: 0px;
+            color: #9ACD32;
+        }
+        .panel-heading {
+            color: #fff !important;
+            background-color: #9ACD32 !important;
+            padding: 0px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+        body {
+            padding: 5px;
+        }
+        .contracts, .contracts td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+        a:link  {
+            color: #008000;
+            text-decoration:underline;
+
+        }
+        a:hover {
+            color: #800000;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .aside-menu li {
+            font-weight: 300;
+            list-style-type: square;
+            border-top: 1px solid #e7e7e7;
+        }
+
+        .aside-menu li:first-child {
+            border: none;
+        }
+
+        .aside-menu li.active {
+            color: #29c5e6;
+        }
+
+        .aside-menu a {
+            color: #8f8f8f;
+        }
+        aside > h2 {
+            background: #29c5e6;
+            font: 14px 'Oswald', sans-serif;
+            color: #fff;
+            padding: 10px;
+            margin: 3000px 0 0 0;
+        }
+
+        aside > p {
+            background: #f3f3f3;
+            border: 1px solid #e7e7e7;
+            padding: 1000px;
+            margin: 0;
+        }
+        aside {
+            float: left;
+            width: 250px;
+        }
+        section {
+            margin-left: 280px;
+            padding-bottom: 50px;
+        }
+
+
+    </style>
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="panel panel-default text-center">
+    <div class="panel-heading">
+        <h1 >Договоры</h1>
+    </div>
+</div>
+<div id="contract" class="container-fluid text-center">
+    <aside>
+        <nav>
+
+            <ul class="aside-menu">
+                <li><a href="/addcontract">Добавить договор</a></li>
+                <li><a href="/">Вернуться на главную</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <section>
+
+        <div id="contractstable" >
+
+            <table class="contracts"  table-striped align="top">
+                <thead>
+                <tr>
+                    <th width="20">ID</th>
+                    <th width="150">Клиент</th>
+                    <th width="150">Тип канала</th>
+                    <th width="150">Площадки</th>
+                    <th width="100">Дата добавления</th>
+                    <th> Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contract : ${contracts}" th:object="${contract}">
+                  <td th:text="*{id}">1</td>
+                  <td th:text="*{client.toString()}">Клиент</td>
+                  <td th:text="*{channelType}">Тип канала</td>
+                  <td th:text="*{contractMarketPlaces.toString()}">Площадки</td>
+                  <td th:text="*{dateAdd}">Дата добавления</td>
+                  <td>
+                      <ul class="aside-menu_action">
+                          <li><a th:href="@{/editcontract(id=${contract.id})}" href="editContract.html">Редактировать</a></li>
+                          <li><a name="removeContract" th:onclick="'removeContract(' + ${contract.id} + ');'">Удалить</a></li>
+                      </ul>
+                  </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+</div>
+
+<footer >
+    <p><img src="/images/Footer.png" height="100" width="100%" ></p>
+</footer>
+
+
+<script>
+
+    function replaceContracts(html) {
+        $('#contractstable').replaceWith($(html));
+
+    }
+
+    function removeContract(contractId)
+    {
+        var data = $('form').serialize();
+        data += '&id=' + contractId;
+        $.post
+        ('/contract/removecontract', data, replaceContracts);
+
+
+    }
+
+</script>
+
+</body>
+</html>

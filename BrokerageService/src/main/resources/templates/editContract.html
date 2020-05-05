@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit contract</title>
+    <style type="text/css">
+        #channeltype-select
+        {
+            width:163px;
+        }
+
+        #channeltype-select option{
+            width:163px;
+        }
+        #client-select {
+            width:400px;
+        }
+
+        #client-select option{
+            width:400px;
+        }
+        .contracts, .contracts td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+
+        #footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            padding: 0px;
+            background: white;
+            color: #fff;
+            width: 100%;
+        }
+
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        .b1 {
+            background: #9ACD32;
+            color: white;
+            font-size: 12pt;
+        }
+
+        .panel-heading {
+            color: #fff !important;
+            background-color: #9ACD32 !important;
+            padding: 0px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+    </style>
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+
+<form id="editcontract-form" th:action="@{/saveContract}" method="post" action="listContracts.html" th:object="${contract}">
+    <div class="panel panel-default text-center">
+        <div class="panel-heading">
+            <h1>Информация о контракте:</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" type="text" readonly="readonly" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="name-input">Дата добавления:</label>
+        <input  id="name-input" size="20" name="dateAdd" type="text"   readonly="readonly" th:value="*{dateAdd}" value="01.01.2020"/>
+    </div>
+    <div class="row">
+        <label for="channeltype-select">Канал:</label>
+        <select width = "300" name = "channelType" id="channeltype-select" class="select" th:field="*{channelType}"  >
+
+            <option   th:each="ch : ${allchannelTypes}"
+                      th:value="${ch.name()}"
+                      th:text="(${ch.name()})">Канал</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <input type="hidden" name="id" id="client"  th:field="*{client}"/>
+        <label for="client-input">Клиент:</label>
+        <input  size= "100" id="client-input" name="id" type="text" readonly="readonly" th:value="*{client.toString()}" value="1"/>
+    </div>
+<!--    <div class="row">-->
+<!--        <label for="client-select">Клиент:</label>-->
+<!--        <select width = "300" name = "client" id="client-select" class="select" th:field="*{client}"  >-->
+
+<!--            <option   th:each="cl : ${clients}"-->
+<!--                    th:value="${cl.getId()}"-->
+<!--                    th:text="(${cl.getFirstName()}+' '+${cl.getSecondName()}+' '+${cl.getLastName()})">Клиент</option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+    <h2> Торговые площадки:</h2>
+    <fieldset id="marketplaces">
+        <div th:each="contract, stat : ${contract.contractMarketPlaces}">
+            <input type="hidden" name="id" id="placetid_${stat.index}"  th:field="${contract.contractMarketPlaces[__${stat.index}__].id}"/>
+            <label for="placetype_${stat.index}">Тип:</label>
+            <select name="placetype" id="placetype_${stat.index}" class="select"
+                    th:field="${contract.contractMarketPlaces[__${stat.index}__].marketPlaceType}">
+
+                <option th:each="pl : ${allmarketPlaceTypes}"
+                        th:value="${pl.name()}"
+                        th:text="(${pl.name()})">Тип
+                </option>
+            </select>
+
+            <label th:for="|contract.contractMarketPlaces[${stat.index}].dateAdd|">Дата добавления:</label>
+            <input readonly="readonly" size="25" th:field="${contract.contractMarketPlaces[__${stat.index}__].dateAdd}">
+            <button type="button" name="removePlace" th:value="${stat.index}">Удалить
+
+            </button>
+
+
+        </div>
+    </fieldset>
+    <button type="button" class="b1" name="addPlace">Добавить площадку</button>
+
+
+    <div class="row">
+        <button type="submit" class="b1">Сохранить</button>
+    </div>
+
+</form>
+<form id="listContracts" th:action="@{/contracts}" action="listСontracts.html">
+    <input type="submit" class="b1" value="Вернуться к списку контрактов"/>
+</form>
+
+
+<script>
+
+    function replacePlace(html) {
+        $('#marketplaces').replaceWith($(html));
+        setHandlersPlace();
+    }
+
+
+    function setHandlersPlace(){
+        $('button[name="addPlace"]').click(function (event) {
+            event.preventDefault();
+            var data = $('form').serialize();
+            $.post('/contract/addplace', data, replacePlace);
+        });
+
+
+        $('button[name="removePlace"]').click(function (event) {
+            event.preventDefault();
+            var data = $('form').serialize();
+            data += '&removePlaceId=' + $(this).val();
+            $.post('/contract/removeplace', data, replacePlace);
+        });
+    };
+
+    setHandlersPlace();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - health
+          - logfile
+          - hystrix.stream
+
+
+spring:
+
+  application:
+    name: 'BrokerageApplication'
+  show-sql: true
+  data:
+    rest:
+      basePath: /datarest
+server:
+  port: 8080
+logging:
+  file: app.log
+
+execution:
+  isolation:
+    thread:
+      timeoutInMilliseconds: 1000
+
+
+
+
