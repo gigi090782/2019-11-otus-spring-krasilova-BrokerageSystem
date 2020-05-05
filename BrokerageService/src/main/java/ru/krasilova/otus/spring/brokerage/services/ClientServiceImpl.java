@@ -1,7 +1,7 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-
+import ru.krasilova.otus.spring.brokerage.utils.*;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;
@@ -22,11 +22,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static ru.krasilova.otus.spring.brokerage.utils.UtilRandomSleep.getRandomSleep;
+
 
 @Service
-
 @Transactional
-
+@DefaultProperties(groupKey = "ClientGroupKey", defaultFallback = "getWaitResponse")
 public class ClientServiceImpl implements ClientService {
 
     private final Logger log = LoggerFactory.getLogger(ClientServiceImpl.class);
@@ -67,9 +68,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-
+    @HystrixCommand(groupKey = "ClientGroup", commandKey = "getAllClientsCommand",
+            fallbackMethod = "getReserveListClients")
     public List<Client> findAll() {
         log.debug("Request to get all Clients");
+        getRandomSleep();
         return clientRepository.findAll();
     }
 

@@ -7,19 +7,16 @@ import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.repositories.ContractRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import static ru.krasilova.otus.spring.brokerage.utils.UtilRandomSleep.getRandomSleep;
 
 @Service
 @Transactional
-
+@DefaultProperties(groupKey = "ContractGroupKey", defaultFallback = "getWaitResponse")
 public class ContractServiceImpl implements ContractService {
 
     private final Logger log = LoggerFactory.getLogger(ContractServiceImpl.class);
@@ -44,9 +41,11 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional(readOnly = true)
-
+    @HystrixCommand(groupKey = "ContractGroup", commandKey = "getAllContractsCommand",
+            fallbackMethod = "getReserveListContracts")
     public List<Contract> findAll() {
         log.debug("Request to get all Contracts");
+        getRandomSleep();
         return contractRepository.findAll();
     }
 

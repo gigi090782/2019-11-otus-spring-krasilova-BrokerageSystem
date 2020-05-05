@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.ChannelType;
 
@@ -41,8 +43,9 @@ public class Contract implements Serializable {
     private String dateAdd;
 
 
-    @OneToMany(targetEntity = ContractMarketPlace.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = ContractMarketPlace.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<ContractMarketPlace>();
 
 

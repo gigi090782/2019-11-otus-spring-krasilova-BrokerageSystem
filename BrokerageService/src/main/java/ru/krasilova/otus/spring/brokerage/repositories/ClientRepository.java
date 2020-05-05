@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @SuppressWarnings("unused")
 @RepositoryRestResource(path = "client")
 public interface ClientRepository extends JpaRepository<Client, Long> {
+
     List<Client> findAll();
+
 }

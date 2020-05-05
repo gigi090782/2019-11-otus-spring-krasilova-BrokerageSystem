@@ -1,9 +1,6 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
 import ru.krasilova.otus.spring.brokerage.models.Contract;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
 

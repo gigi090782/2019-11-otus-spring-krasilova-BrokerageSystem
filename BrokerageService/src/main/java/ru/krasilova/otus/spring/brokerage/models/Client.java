@@ -3,6 +3,8 @@ package ru.krasilova.otus.spring.brokerage.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,6 +21,12 @@ import java.util.stream.Collectors;
 @Cacheable(false)
 
 @Table(name = "client")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "allJoin", attributeNodes = {
+                @NamedAttributeNode("addresses"),
+                @NamedAttributeNode("contacts"),
+                @NamedAttributeNode("contracts")
+        })})
 
 public class Client implements Serializable {
 
@@ -46,17 +54,20 @@ public class Client implements Serializable {
     private String dateAdd;
 
 
-    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
 
-   @OneToMany(targetEntity = Contact.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   @OneToMany(targetEntity = Contact.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    @JoinColumn(name = "client_id")
+   @Fetch(value = FetchMode.SUBSELECT)
     private List<Contact> contacts = new ArrayList<Contact>();
 
 
-    @OneToMany(targetEntity = Contract.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Contract.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Contract> contracts = new ArrayList<Contract>();
 
 
