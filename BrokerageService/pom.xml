@@ -180,7 +180,7 @@
 
             </plugin>
         </plugins>
-        <finalName>My-app-library</finalName>
+        <finalName>BrokerageService</finalName>
     </build>
 
 </project>

@@ -129,7 +129,7 @@ public class ClientResource {
         model.addAttribute("contacttypes", contactTypes);
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
         model.addAttribute("addresstypes", addressTypes);
-        return "editclient";
+        return "editClient";
     }
 
     @GetMapping("/clients/{id}")
@@ -158,9 +158,9 @@ public class ClientResource {
         List<Contract> contracts = contractService.findAllByClientId(client.getId());
         model.addAttribute("contracts", contracts);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
-            return "editclient::#contractstable";
+            return "editClient::#contractstable";
         } else {
-            return "editclient";
+            return "editClient";
         }
     }
 
@@ -182,9 +182,9 @@ public class ClientResource {
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
         model.addAttribute("addresstypes", addressTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
-            return "editclient::#addresses";
+            return "editClient::#addresses";
         } else {
-            return "editclient";
+            return "editClient";
         }
     }
 
@@ -207,9 +207,9 @@ public class ClientResource {
         List<ContactType> contactTypes = Arrays.asList(ContactType.values());
         model.addAttribute("contacttypes", contactTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
-            return "editclient::#contacts";
+            return "editClient::#contacts";
         } else {
-            return "editclient";
+            return "editClient";
         }
     }
 
