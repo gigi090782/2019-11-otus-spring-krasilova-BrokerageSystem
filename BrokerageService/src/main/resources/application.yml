@@ -24,11 +24,13 @@ server:
 logging:
   file: app.log
 
-execution:
-  isolation:
-    thread:
-      timeoutInMilliseconds: 1000
-
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
 
 
 
