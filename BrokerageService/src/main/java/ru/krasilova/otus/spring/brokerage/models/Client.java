@@ -53,20 +53,15 @@ public class Client implements Serializable {
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     private String dateAdd;
 
-
-    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
 
-   @OneToMany(targetEntity = Contact.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   @JoinColumn(name = "client_id")
-   @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Contact> contacts = new ArrayList<Contact>();
 
-
-    @OneToMany(targetEntity = Contract.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Contract> contracts = new ArrayList<Contract>();
 

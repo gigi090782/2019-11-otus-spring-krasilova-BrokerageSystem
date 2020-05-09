@@ -31,7 +31,7 @@ public class Contact implements Serializable {
     @Column(name = "value")
     private String value;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 

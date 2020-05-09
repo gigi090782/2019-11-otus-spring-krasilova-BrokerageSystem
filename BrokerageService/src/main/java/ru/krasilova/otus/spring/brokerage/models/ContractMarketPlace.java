@@ -31,7 +31,7 @@ public class ContractMarketPlace implements Serializable {
     @Column(name = "date_add")
     private String dateAdd;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 

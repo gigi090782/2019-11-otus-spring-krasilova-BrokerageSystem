@@ -38,14 +38,12 @@ public class Contract implements Serializable {
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     private String dateAdd;
 
-
-    @OneToMany(targetEntity = ContractMarketPlace.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "contract_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "contract", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<ContractMarketPlace>();
 
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 

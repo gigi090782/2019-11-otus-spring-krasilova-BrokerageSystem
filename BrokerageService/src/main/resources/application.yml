@@ -14,7 +14,8 @@ spring:
 
   application:
     name: 'BrokerageApplication'
-  show-sql: true
+  jpa:
+    show-sql: true
   data:
     rest:
       basePath: /datarest
