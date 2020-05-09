@@ -1,7 +1,6 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import ru.krasilova.otus.spring.brokerage.utils.*;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;

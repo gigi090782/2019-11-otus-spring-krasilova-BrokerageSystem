@@ -4,6 +4,7 @@ package ru.krasilova.otus.spring.brokerage.models;
 import javax.persistence.*;
 
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,15 +37,13 @@ public class Address implements Serializable {
     private Client client;
 
 
-  public Address  (AddressType addressType, String value, Client client)
-  {
-      this.addressType = addressType;
-      this.value = value;
-      this.client = client;
-  }
+    public Address(AddressType addressType, String value, Client client) {
+        this.addressType = addressType;
+        this.value = value;
+        this.client = client;
+    }
 
-    public Address  (AddressType addressType, String value)
-    {
+    public Address(AddressType addressType, String value) {
         this.addressType = addressType;
         this.value = value;
 
@@ -117,7 +116,7 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return "id=" + getId() +
-            ", '" + getAddressType().toString() + "'" +
-            ", " + getValue() + "; ";
+                ", '" + getAddressType().toString() + "'" +
+                ", " + getValue() + "; ";
     }
 }

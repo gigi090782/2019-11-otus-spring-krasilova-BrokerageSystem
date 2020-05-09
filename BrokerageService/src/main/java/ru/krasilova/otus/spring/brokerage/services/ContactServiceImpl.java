@@ -1,7 +1,5 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
-import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Contact;
 import ru.krasilova.otus.spring.brokerage.services.ContactService;
 import ru.krasilova.otus.spring.brokerage.repositories.ContactRepository;

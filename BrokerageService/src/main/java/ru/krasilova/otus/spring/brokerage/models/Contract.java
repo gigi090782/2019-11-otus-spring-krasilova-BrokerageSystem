@@ -1,14 +1,10 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 

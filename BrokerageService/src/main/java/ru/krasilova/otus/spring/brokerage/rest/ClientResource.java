@@ -1,35 +1,29 @@
 package ru.krasilova.otus.spring.brokerage.rest;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import ru.krasilova.otus.spring.brokerage.models.Address;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.models.Contact;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.AddressType;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.ContactType;
+import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.NotFoundException;
-import ru.krasilova.otus.spring.brokerage.services.AddressService;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 import ru.krasilova.otus.spring.brokerage.services.ContactService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
 import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Action;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -54,14 +48,12 @@ public class ClientResource {
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final AddressService addressService;
     private final ContactService contactService;
 
     @Autowired
     public ClientResource(ClientService clientService, ContractService contractService,
-                          AddressService addressService, ContactService contactService) {
+                          ContactService contactService) {
         this.clientService = clientService;
-        this.addressService = addressService;
         this.contactService = contactService;
         this.contractService = contractService;
     }

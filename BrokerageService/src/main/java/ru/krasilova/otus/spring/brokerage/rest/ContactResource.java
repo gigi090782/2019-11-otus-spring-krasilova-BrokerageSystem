@@ -1,9 +1,6 @@
 package ru.krasilova.otus.spring.brokerage.rest;
 
-import org.springframework.ui.Model;
 import ru.krasilova.otus.spring.brokerage.models.Contact;
-import ru.krasilova.otus.spring.brokerage.models.Contract;
-import ru.krasilova.otus.spring.brokerage.rest.exceptions.NotFoundException;
 import ru.krasilova.otus.spring.brokerage.services.ContactService;
 import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

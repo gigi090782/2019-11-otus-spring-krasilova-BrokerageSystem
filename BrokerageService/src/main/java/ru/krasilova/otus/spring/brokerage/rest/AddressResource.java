@@ -1,18 +1,15 @@
 package ru.krasilova.otus.spring.brokerage.rest;
 
-import org.springframework.ui.Model;
-import ru.krasilova.otus.spring.brokerage.models.Address;
-import ru.krasilova.otus.spring.brokerage.models.Client;
-import ru.krasilova.otus.spring.brokerage.services.AddressService;
-import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
-
-import  ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
-import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.krasilova.otus.spring.brokerage.models.Address;
+import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
+import ru.krasilova.otus.spring.brokerage.services.AddressService;
+import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
+import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -51,7 +48,7 @@ public class AddressResource {
 
 
     @PutMapping("/addresses")
-    public ResponseEntity<Address> updateAddress(@RequestBody Address address) throws URISyntaxException {
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address) {
         log.debug("REST request to update Address : {}", address);
         if (address.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -66,7 +63,6 @@ public class AddressResource {
     @GetMapping("/addresses")
     public List<Address> getAllAddresses() {
         log.debug("REST request to get all Addresses");
-        List<Address> adr =  addressService.findAll();
         return addressService.findAll();
     }
 
