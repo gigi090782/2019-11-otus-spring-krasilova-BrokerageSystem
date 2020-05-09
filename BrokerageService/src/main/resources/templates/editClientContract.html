@@ -96,7 +96,7 @@
 
             <option   th:each="ch : ${allchannelTypes}"
                       th:value="${ch.name()}"
-                      th:text="(${ch.name()})">Канал</option>
+                      th:text="(${ch.getValue()})">Канал</option>
         </select>
     </div>
 
@@ -117,7 +117,7 @@
 
                 <option th:each="pl : ${allmarketPlaceTypes}"
                         th:value="${pl.name()}"
-                        th:text="(${pl.name()})">Тип
+                        th:text="(${pl.getValue()})">Тип
                 </option>
             </select>
 

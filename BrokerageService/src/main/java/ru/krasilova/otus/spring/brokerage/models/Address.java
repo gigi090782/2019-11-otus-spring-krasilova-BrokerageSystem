@@ -117,7 +117,7 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return "id=" + getId() +
-            ", '" + getAddressType() + "'" +
+            ", '" + getAddressType().toString() + "'" +
             ", " + getValue() + "; ";
     }
 }

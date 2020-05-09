@@ -96,7 +96,7 @@
 
             <option   th:each="ch : ${allchannelTypes}"
                       th:value="${ch.name()}"
-                      th:text="(${ch.name()})">Канал</option>
+                      th:text="(${ch.getValue()})">Канал</option>
         </select>
     </div>
 
@@ -105,15 +105,6 @@
         <label for="client-input">Клиент:</label>
         <input  size= "100" id="client-input" name="id" type="text" readonly="readonly" th:value="*{client.toString()}" value="1"/>
     </div>
-<!--    <div class="row">-->
-<!--        <label for="client-select">Клиент:</label>-->
-<!--        <select width = "300" name = "client" id="client-select" class="select" th:field="*{client}"  >-->
-
-<!--            <option   th:each="cl : ${clients}"-->
-<!--                    th:value="${cl.getId()}"-->
-<!--                    th:text="(${cl.getFirstName()}+' '+${cl.getSecondName()}+' '+${cl.getLastName()})">Клиент</option>-->
-<!--        </select>-->
-<!--    </div>-->
 
     <h2> Торговые площадки:</h2>
     <fieldset id="marketplaces">
@@ -125,7 +116,7 @@
 
                 <option th:each="pl : ${allmarketPlaceTypes}"
                         th:value="${pl.name()}"
-                        th:text="(${pl.name()})">Тип
+                        th:text="(${pl.getValue()})">Тип
                 </option>
             </select>
 

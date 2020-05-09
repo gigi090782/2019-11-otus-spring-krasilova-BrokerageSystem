@@ -1,7 +1,21 @@
 package ru.krasilova.otus.spring.brokerage.models.enumeration;
-/**
- * The ContactType enumeration.
- */
+
 public enum ContactType {
-    Мобильный_телефон, Email
+    Mobile("Мобильный телефон"),
+    Email("Email");
+
+    private String value;
+
+    ContactType(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
