@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.krasilova.otus.spring.brokerage.utils.UtilRandomSleep.getRandomSleep;
 
 
 @Service
@@ -72,7 +71,7 @@ public class ClientServiceImpl implements ClientService {
             fallbackMethod = "getReserveListClients")
     public List<Client> findAll() {
         log.debug("Request to get all Clients");
-        getRandomSleep();
+
         return clientRepository.findAll();
     }
 
