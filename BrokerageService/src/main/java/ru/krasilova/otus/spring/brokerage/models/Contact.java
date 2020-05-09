@@ -44,7 +44,7 @@ public class Contact implements Serializable {
         this.id = id;
     }
 
-    private ContactType getContactType() {
+    public ContactType getContactType() {
         return contactType;
     }
 
@@ -57,7 +57,7 @@ public class Contact implements Serializable {
         this.contactType = contactType;
     }
 
-    private String getValue() {
+    public String getValue() {
         return value;
     }
 

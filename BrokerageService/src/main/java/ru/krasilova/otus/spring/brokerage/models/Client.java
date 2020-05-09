@@ -215,7 +215,7 @@ public class Client implements Serializable {
                 getSecondName();
     }
 
-    private String getSecondName() {
+    public String getSecondName() {
         return secondName;
     }
 

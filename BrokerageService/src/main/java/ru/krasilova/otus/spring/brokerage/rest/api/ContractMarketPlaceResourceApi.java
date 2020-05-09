@@ -1,10 +1,10 @@
-package ru.krasilova.otus.spring.brokerage.rest;
+package ru.krasilova.otus.spring.brokerage.rest.api;
 
 import ru.krasilova.otus.spring.brokerage.models.ContractMarketPlace;
 import ru.krasilova.otus.spring.brokerage.services.ContractMarketPlaceService;
 import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 
-import  ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
+import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
 import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class ContractMarketPlaceResource {
+public class ContractMarketPlaceResourceApi {
 
-    private final Logger log = LoggerFactory.getLogger(ContractMarketPlaceResource.class);
+    private final Logger log = LoggerFactory.getLogger(ContractMarketPlaceResourceApi.class);
 
     private static final String ENTITY_NAME = "contractMarketPlace";
 
@@ -31,7 +31,7 @@ public class ContractMarketPlaceResource {
 
     private final ContractMarketPlaceService contractMarketPlaceService;
 
-    public ContractMarketPlaceResource(ContractMarketPlaceService contractMarketPlaceService) {
+    public ContractMarketPlaceResourceApi(ContractMarketPlaceService contractMarketPlaceService) {
         this.contractMarketPlaceService = contractMarketPlaceService;
     }
 
@@ -44,8 +44,8 @@ public class ContractMarketPlaceResource {
         }
         ContractMarketPlace result = contractMarketPlaceService.save(contractMarketPlace);
         return ResponseEntity.created(new URI("/api/contract-market-places/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
 
@@ -57,8 +57,8 @@ public class ContractMarketPlaceResource {
         }
         ContractMarketPlace result = contractMarketPlaceService.save(contractMarketPlace);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contractMarketPlace.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contractMarketPlace.getId().toString()))
+                .body(result);
     }
 
 

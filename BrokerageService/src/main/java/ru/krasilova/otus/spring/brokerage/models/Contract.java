@@ -22,6 +22,9 @@ import ru.krasilova.otus.spring.brokerage.models.enumeration.ChannelType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "contract")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "clientJoin", attributeNodes = {
+                @NamedAttributeNode("client")})})
 public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +59,7 @@ public class Contract implements Serializable {
         this.id = id;
     }
 
-    private ChannelType getChannelType() {
+    public ChannelType getChannelType() {
         return channelType;
     }
 
@@ -69,7 +72,7 @@ public class Contract implements Serializable {
         this.channelType = channelType;
     }
 
-    private String getDateAdd() {
+    public String getDateAdd() {
         return dateAdd;
     }
 

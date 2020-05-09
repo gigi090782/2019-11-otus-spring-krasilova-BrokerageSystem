@@ -1,4 +1,4 @@
-package ru.krasilova.myapp.config;
+package ru.krasilova.otus.spring.brokerage.config;
 
 /**
  * Application constants.

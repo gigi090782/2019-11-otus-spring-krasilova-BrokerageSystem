@@ -41,6 +41,11 @@ public class Address implements Serializable {
         this.client = client;
     }
 
+
+    public Address(AddressType addressType) {
+        this.addressType = addressType;
+    }
+
     public Address(AddressType addressType, String value) {
         this.addressType = addressType;
         this.value = value;
@@ -55,7 +60,7 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    private AddressType getAddressType() {
+    public AddressType getAddressType() {
         return addressType;
     }
 
@@ -68,7 +73,7 @@ public class Address implements Serializable {
         this.addressType = addressType;
     }
 
-    private String getValue() {
+    public String getValue() {
         return value;
     }
 
@@ -113,7 +118,7 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return "id=" + getId() +
-                ", '" + getAddressType().toString() + "'" +
+                ", '" +   getAddressType().toString() + "'" +
                 ", " + getValue() + "; ";
     }
 }

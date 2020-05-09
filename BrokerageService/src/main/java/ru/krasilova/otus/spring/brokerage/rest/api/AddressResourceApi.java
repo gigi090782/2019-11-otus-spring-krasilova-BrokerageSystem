@@ -1,4 +1,4 @@
-package ru.krasilova.otus.spring.brokerage.rest;
+package ru.krasilova.otus.spring.brokerage.rest.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class AddressResource {
+public class AddressResourceApi {
 
-    private final Logger log = LoggerFactory.getLogger(AddressResource.class);
+    private final Logger log = LoggerFactory.getLogger(ru.krasilova.otus.spring.brokerage.rest.api.AddressResourceApi.class);
 
     private static final String ENTITY_NAME = "address";
 
@@ -30,7 +30,7 @@ public class AddressResource {
 
     private final AddressService addressService;
 
-    public AddressResource(AddressService addressService) {
+    public AddressResourceApi(AddressService addressService) {
         this.addressService = addressService;
     }
 
@@ -42,8 +42,8 @@ public class AddressResource {
         }
         Address result = addressService.save(address);
         return ResponseEntity.created(new URI("/api/addresses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
 
@@ -55,8 +55,8 @@ public class AddressResource {
         }
         Address result = addressService.save(address);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, address.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, address.getId().toString()))
+                .body(result);
     }
 
 
@@ -65,9 +65,6 @@ public class AddressResource {
         log.debug("REST request to get all Addresses");
         return addressService.findAll();
     }
-
-
-
 
 
     @GetMapping("/addresses/{id}")

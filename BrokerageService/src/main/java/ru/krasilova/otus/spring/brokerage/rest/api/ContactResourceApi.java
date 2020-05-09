@@ -1,10 +1,10 @@
-package ru.krasilova.otus.spring.brokerage.rest;
+package ru.krasilova.otus.spring.brokerage.rest.api;
 
 import ru.krasilova.otus.spring.brokerage.models.Contact;
 import ru.krasilova.otus.spring.brokerage.services.ContactService;
 import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 
-import  ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
+import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
 import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class ContactResource {
+public class ContactResourceApi {
 
-    private final Logger log = LoggerFactory.getLogger(ContactResource.class);
+    private final Logger log = LoggerFactory.getLogger(ru.krasilova.otus.spring.brokerage.rest.api.ContactResourceApi.class);
 
     private static final String ENTITY_NAME = "contact";
 
@@ -31,7 +31,7 @@ public class ContactResource {
 
     private final ContactService contactService;
 
-    public ContactResource(ContactService contactService) {
+    public ContactResourceApi(ContactService contactService) {
         this.contactService = contactService;
     }
 
@@ -44,8 +44,8 @@ public class ContactResource {
         }
         Contact result = contactService.save(contact);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
 
@@ -57,8 +57,8 @@ public class ContactResource {
         }
         Contact result = contactService.save(contact);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contact.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contact.getId().toString()))
+                .body(result);
     }
 
 
@@ -83,8 +83,6 @@ public class ContactResource {
         contactService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
-
-
 
 
 }

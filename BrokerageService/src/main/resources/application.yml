@@ -19,6 +19,9 @@ spring:
   data:
     rest:
       basePath: /datarest
+  h2:
+    console:
+       enabled:  true
 server:
   port: 8080
 logging:

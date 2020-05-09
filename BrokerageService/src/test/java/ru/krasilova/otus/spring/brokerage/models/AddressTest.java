@@ -1,6 +1,7 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
 import org.junit.jupiter.api.Test;
+import ru.krasilova.otus.spring.brokerage.models.enumeration.AddressType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

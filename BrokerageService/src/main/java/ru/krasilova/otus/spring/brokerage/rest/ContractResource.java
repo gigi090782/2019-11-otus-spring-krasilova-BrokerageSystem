@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -47,42 +46,16 @@ public class ContractResource {
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final ContractMarketPlaceService marketPlaceService;
 
 
     @Autowired
     public ContractResource(ClientService clientService, ContractService contractService,
                             ContractMarketPlaceService marketPlaceService) {
         this.clientService = clientService;
-        this.marketPlaceService = marketPlaceService;
         this.contractService = contractService;
     }
 
 
-    @PostMapping("/contracts")
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) throws URISyntaxException {
-        log.debug("REST request to save Contract : {}", contract);
-        if (contract.getId() != null) {
-            throw new BadRequestAlertException("A new contract cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Contract result = contractService.save(contract);
-        return ResponseEntity.created(new URI("/api/contracts/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
-    }
-
-
-    @PutMapping("/contracts")
-    public ResponseEntity<Contract> updateContract(@RequestBody Contract contract) {
-        log.debug("REST request to update Contract : {}", contract);
-        if (contract.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Contract result = contractService.save(contract);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contract.getId().toString()))
-                .body(result);
-    }
 
 
     @GetMapping("/contracts")
@@ -103,20 +76,6 @@ public class ContractResource {
     }
 
 
-    @GetMapping("/contracts/{id}")
-    public ResponseEntity<Contract> getContract(@PathVariable Long id) {
-        log.debug("REST request to get Contract : {}", id);
-        Optional<Contract> contract = contractService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(contract);
-    }
-
-
-    @DeleteMapping("/contracts/{id}")
-    public ResponseEntity<Void> deleteContract(@PathVariable Long id) {
-        log.debug("REST request to delete Contract : {}", id);
-        contractService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
-    }
 
     @GetMapping("/addcontract")
     public String getAddContract(Model model) {

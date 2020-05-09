@@ -125,7 +125,7 @@ class ClientResourceTest {
     void getClient() throws Exception {
 
         clientRepository.saveAndFlush(client);
-        restClientMockMvc.perform(get("/clients/{id}", client.getId()))
+        restClientMockMvc.perform(get("/api/clients/{id}", client.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(client.getId().intValue()))
@@ -163,7 +163,7 @@ class ClientResourceTest {
                 .birthDate(UPDATED_BIRTH_DATE)
                 .dateAdd(UPDATED_DATE_ADD);
 
-        restClientMockMvc.perform(put("/clients")
+        restClientMockMvc.perform(put("/api/clients")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(TestUtil.convertObjectToJsonBytes(updatedClient)))
                 .andExpect(status().isOk());

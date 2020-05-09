@@ -3,7 +3,6 @@ package ru.krasilova.otus.spring.brokerage.services;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
-import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.repositories.ContractRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -43,7 +43,7 @@ public class ContractMarketPlace implements Serializable {
         this.id = id;
     }
 
-    private MarketPlaceType getMarketPlaceType() {
+    public MarketPlaceType getMarketPlaceType() {
         return marketPlaceType;
     }
 
