@@ -1,18 +1,15 @@
 package ru.krasilova.otus.spring.brokerage.repositories;
 
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.krasilova.otus.spring.brokerage.models.ContractMarketPlace;
-
-
-import org.springframework.data.jpa.repository.*;
 
 import java.util.List;
 
 
-@SuppressWarnings("unused")
-@RepositoryRestResource(path = "contractmarketplace")
+@Repository
 public interface ContractMarketPlaceRepository extends JpaRepository<ContractMarketPlace, Long> {
     List<ContractMarketPlace> findAll();
+
     List<ContractMarketPlace> findAllByContractId(Long id);
 }
