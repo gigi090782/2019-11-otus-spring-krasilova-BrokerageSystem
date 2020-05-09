@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 //@WithMockUser
-public class ClientResourceTest {
+class ClientResourceTest {
 
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
@@ -65,7 +65,7 @@ public class ClientResourceTest {
     private Client client;
 
 
-    public static Client createEntity(EntityManager em) {
+    static Client createEntity(EntityManager em) {
         Client client = new Client()
                 .firstName(DEFAULT_FIRST_NAME)
                 .lastName(DEFAULT_LAST_NAME)
@@ -74,7 +74,7 @@ public class ClientResourceTest {
         return client;
     }
 
-    public static Client createUpdatedEntity(EntityManager em) {
+    static Client createUpdatedEntity(EntityManager em) {
         Client client = new Client()
                 .firstName(UPDATED_FIRST_NAME)
                 .lastName(UPDATED_LAST_NAME)
@@ -84,13 +84,13 @@ public class ClientResourceTest {
     }
 
     @BeforeEach
-    public void initTest() {
+    void initTest() {
         client = createEntity(em);
     }
 
     @Test
     @Transactional
-    public void createClient() throws Exception {
+    void createClient() throws Exception {
         int databaseSizeBeforeCreate = clientRepository.findAll().size();
 
 
@@ -110,7 +110,7 @@ public class ClientResourceTest {
     }
 
     @Test
-    public void testListClients() throws Exception {
+    void testListClients() throws Exception {
 
         ResultActions result = this.mvc.perform(MockMvcRequestBuilders.get("/"));
 
@@ -122,7 +122,7 @@ public class ClientResourceTest {
 
     @Test
     @Transactional
-    public void getClient() throws Exception {
+    void getClient() throws Exception {
 
         clientRepository.saveAndFlush(client);
         restClientMockMvc.perform(get("/clients/{id}", client.getId()))
@@ -138,7 +138,7 @@ public class ClientResourceTest {
 
     @Test
     @Transactional
-    public void getNonExistingClient() throws Exception {
+    void getNonExistingClient() throws Exception {
         // Get the client
         restClientMockMvc.perform(get("/clients/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
@@ -147,7 +147,7 @@ public class ClientResourceTest {
 
     @Test
     @Transactional
-    public void updateClient() throws Exception {
+    void updateClient() throws Exception {
 
         clientService.save(client);
 
@@ -181,7 +181,7 @@ public class ClientResourceTest {
 
     @Test
     @Transactional
-    public void deleteClient() throws Exception {
+    void deleteClient() throws Exception {
         clientService.save(client);
 
         int databaseSizeBeforeDelete = clientRepository.findAll().size();

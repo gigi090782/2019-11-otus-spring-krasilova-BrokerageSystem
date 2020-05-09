@@ -16,7 +16,7 @@ public final class HeaderUtil {
     private HeaderUtil() {
     }
 
-    public static HttpHeaders createAlert(String applicationName, String message, String param) {
+    private static HttpHeaders createAlert(String applicationName, String message, String param) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-" + applicationName + "-alert", message);
 

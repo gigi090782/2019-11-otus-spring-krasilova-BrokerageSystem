@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class ContractTest {
+class ContractTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Contract.class);
         Contract contract1 = new Contract();
         contract1.setId(1L);

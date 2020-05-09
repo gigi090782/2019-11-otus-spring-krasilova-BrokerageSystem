@@ -45,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client);
     }
 
-    public void checkClient(Client client) throws BadBirthDate, ParseException {
+    private void checkClient(Client client) throws BadBirthDate, ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date datetoday = new Date();
         Date birthdate = new SimpleDateFormat("yyyy-MM-dd").parse(client.getBirthDate());

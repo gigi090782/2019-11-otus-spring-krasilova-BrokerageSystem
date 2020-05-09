@@ -40,7 +40,7 @@ public class Contract implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "contract", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<ContractMarketPlace>();
+    private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,7 +56,7 @@ public class Contract implements Serializable {
         this.id = id;
     }
 
-    public ChannelType getChannelType() {
+    private ChannelType getChannelType() {
         return channelType;
     }
 
@@ -69,7 +69,7 @@ public class Contract implements Serializable {
         this.channelType = channelType;
     }
 
-    public String getDateAdd() {
+    private String getDateAdd() {
         return dateAdd;
     }
 

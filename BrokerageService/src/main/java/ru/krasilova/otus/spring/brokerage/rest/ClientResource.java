@@ -48,13 +48,10 @@ public class ClientResource {
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final ContactService contactService;
 
     @Autowired
-    public ClientResource(ClientService clientService, ContractService contractService,
-                          ContactService contactService) {
+    public ClientResource(ClientService clientService, ContractService contractService) {
         this.clientService = clientService;
-        this.contactService = contactService;
         this.contractService = contractService;
     }
 
@@ -73,7 +70,7 @@ public class ClientResource {
 
 
     @PutMapping("/clients")
-    public ResponseEntity<Client> updateClient(@RequestBody Client client) throws URISyntaxException, ParseException, BadBirthDate {
+    public ResponseEntity<Client> updateClient(@RequestBody Client client) throws ParseException, BadBirthDate {
         log.debug("REST request to update Client : {}", client);
         if (client.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -92,17 +89,17 @@ public class ClientResource {
     }
 
     @GetMapping("/")
-    public String getListClient(Model model) throws InterruptedException {
+    public String getListClient(Model model) {
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
         return "listСlients";
     }
 
     @GetMapping("/addclient")
-    public String getAddClient(Model model) throws ParseException {
+    public String getAddClient(Model model) {
         Client client = new Client();
         model.addAttribute("client", client);
-        List<Contract> contracts = new ArrayList<Contract>();
+        List<Contract> contracts = new ArrayList<>();
         model.addAttribute("contracts", contracts);
         return addModelsForClient(model);
     }
@@ -116,7 +113,7 @@ public class ClientResource {
         return addModelsForClient(model);
     }
 
-    public String addModelsForClient(Model model) {
+    private String addModelsForClient(Model model) {
         List<ContactType> contactTypes = Arrays.asList(ContactType.values());
         model.addAttribute("contacttypes", contactTypes);
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
@@ -146,7 +143,7 @@ public class ClientResource {
         return returnClientContracts(client, model, request);
     }
 
-    public String returnClientContracts(Client client, Model model, HttpServletRequest request) {
+    private String returnClientContracts(Client client, Model model, HttpServletRequest request) {
         List<Contract> contracts = contractService.findAllByClientId(client.getId());
         model.addAttribute("contracts", contracts);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -170,7 +167,7 @@ public class ClientResource {
     }
 
 
-    public String returnClientAddresses(Client client, Model model, HttpServletRequest request) {
+    private String returnClientAddresses(Client client, Model model, HttpServletRequest request) {
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
         model.addAttribute("addresstypes", addressTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -195,7 +192,7 @@ public class ClientResource {
     }
 
 
-    public String returnClientContacts(Client client, Model model, HttpServletRequest request) {
+    private String returnClientContacts(Client client, Model model, HttpServletRequest request) {
         List<ContactType> contactTypes = Arrays.asList(ContactType.values());
         model.addAttribute("contacttypes", contactTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -232,8 +229,8 @@ public class ClientResource {
             Client client,
             Model model
     ) throws ParseException, BadBirthDate {
-        client.getAddresses().stream().forEach(a -> a.setClient(client));
-        client.getContacts().stream().forEach(c -> c.setClient(client));
+        client.getAddresses().forEach(a -> a.setClient(client));
+        client.getContacts().forEach(c -> c.setClient(client));
         if (client.getId() == null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();

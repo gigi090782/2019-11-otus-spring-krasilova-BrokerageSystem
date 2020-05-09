@@ -55,7 +55,7 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    public AddressType getAddressType() {
+    private AddressType getAddressType() {
         return addressType;
     }
 
@@ -68,7 +68,7 @@ public class Address implements Serializable {
         this.addressType = addressType;
     }
 
-    public String getValue() {
+    private String getValue() {
         return value;
     }
 

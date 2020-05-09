@@ -50,7 +50,7 @@ public class ContractMarketPlaceResource {
 
 
     @PutMapping("/contract-market-places")
-    public ResponseEntity<ContractMarketPlace> updateContractMarketPlace(@RequestBody ContractMarketPlace contractMarketPlace) throws URISyntaxException {
+    public ResponseEntity<ContractMarketPlace> updateContractMarketPlace(@RequestBody ContractMarketPlace contractMarketPlace) {
         log.debug("REST request to update ContractMarketPlace : {}", contractMarketPlace);
         if (contractMarketPlace.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

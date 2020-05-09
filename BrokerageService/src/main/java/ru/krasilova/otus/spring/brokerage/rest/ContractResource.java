@@ -73,7 +73,7 @@ public class ContractResource {
 
 
     @PutMapping("/contracts")
-    public ResponseEntity<Contract> updateContract(@RequestBody Contract contract) throws URISyntaxException {
+    public ResponseEntity<Contract> updateContract(@RequestBody Contract contract) {
         log.debug("REST request to update Contract : {}", contract);
         if (contract.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -86,7 +86,7 @@ public class ContractResource {
 
 
     @GetMapping("/contracts")
-    public String getListContracts(Model model) throws InterruptedException {
+    public String getListContracts(Model model) {
         List<Contract> contracts = contractService.findAll();
         model.addAttribute("contracts", contracts);
         return "listContracts";
@@ -94,7 +94,7 @@ public class ContractResource {
 
 
     @GetMapping("/clientcontracts")
-    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model) throws InterruptedException {
+    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model) {
         List<Contract> contracts = contractService.findAllByClientId(clientid);
         model.addAttribute("contracts", contracts);
         Client client = clientService.findOne(clientid).orElseThrow(NotFoundException::new);
@@ -119,7 +119,7 @@ public class ContractResource {
     }
 
     @GetMapping("/addcontract")
-    public String getAddContract(Model model) throws ParseException {
+    public String getAddContract(Model model) {
         Contract contract = new Contract();
         model.addAttribute("contract", contract);
         addModelsForContract(model);
@@ -128,7 +128,7 @@ public class ContractResource {
 
 
     @GetMapping("/addclientcontract")
-    public String getAddClientContract(@RequestParam("clientid") long clientid, Model model) throws ParseException {
+    public String getAddClientContract(@RequestParam("clientid") long clientid, Model model) {
         Client client = clientService.findOne(clientid).get();
         Contract contract = new Contract();
         contract.setClient(client);
@@ -160,7 +160,7 @@ public class ContractResource {
 
 
 
-    public void addModelsForContract(Model model) {
+    private void addModelsForContract(Model model) {
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
         List<ChannelType> channelTypes = Arrays.asList(ChannelType.values());
@@ -184,7 +184,7 @@ public class ContractResource {
     }
 
 
-    public String returnContract(Contract contract, Model model, HttpServletRequest request) {
+    private String returnContract(Contract contract, Model model, HttpServletRequest request) {
         List<MarketPlaceType> marketPlaceTypes = Arrays.asList(MarketPlaceType.values());
         model.addAttribute("allmarketPlaceTypes", marketPlaceTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {

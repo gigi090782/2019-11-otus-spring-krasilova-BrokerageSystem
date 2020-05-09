@@ -19,15 +19,7 @@ import java.util.stream.Collectors;
 @Entity
 @Data
 @Cacheable(false)
-
 @Table(name = "client")
-@NamedEntityGraphs({
-        @NamedEntityGraph(name = "allJoin", attributeNodes = {
-                @NamedAttributeNode("addresses"),
-                @NamedAttributeNode("contacts"),
-                @NamedAttributeNode("contracts")
-        })})
-
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,15 +47,15 @@ public class Client implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Address> addresses = new ArrayList<Address>();
+    private List<Address> addresses = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Contact> contacts = new ArrayList<Contact>();
+    private List<Contact> contacts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Contract> contracts = new ArrayList<Contract>();
+    private List<Contract> contracts = new ArrayList<>();
 
 
     public Long getId() {
@@ -223,7 +215,7 @@ public class Client implements Serializable {
                 getSecondName();
     }
 
-    public String getSecondName() {
+    private String getSecondName() {
         return secondName;
     }
 

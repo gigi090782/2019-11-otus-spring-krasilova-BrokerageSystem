@@ -69,7 +69,7 @@ public final class TestUtil {
     public static class ZonedDateTimeMatcher extends TypeSafeDiagnosingMatcher<String> {
         private final ZonedDateTime date;
 
-        public ZonedDateTimeMatcher(ZonedDateTime date) {
+        ZonedDateTimeMatcher(ZonedDateTime date) {
             this.date = date;
         }
 

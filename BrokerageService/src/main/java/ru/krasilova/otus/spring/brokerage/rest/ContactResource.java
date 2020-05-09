@@ -50,7 +50,7 @@ public class ContactResource {
 
 
     @PutMapping("/contacts")
-    public ResponseEntity<Contact> updateContact(@RequestBody Contact contact) throws URISyntaxException {
+    public ResponseEntity<Contact> updateContact(@RequestBody Contact contact) {
         log.debug("REST request to update Contact : {}", contact);
         if (contact.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
