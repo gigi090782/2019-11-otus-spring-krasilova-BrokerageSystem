@@ -67,6 +67,7 @@ public class AddressResourceApi {
     }
 
 
+
     @GetMapping("/addresses/{id}")
     public ResponseEntity<Address> getAddress(@PathVariable Long id) {
         log.debug("REST request to get Address : {}", id);

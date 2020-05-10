@@ -1,6 +1,7 @@
 package ru.krasilova.otus.spring.brokerage.rest;
 
 
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = BrokerageApplication.class)
 
 @AutoConfigureMockMvc
-//@WithMockUser
+@DisplayName("Тест контроллера ClientResource")
 class ClientResourceTest {
 
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
@@ -90,6 +91,7 @@ class ClientResourceTest {
 
     @Test
     @Transactional
+    @DisplayName("Создание клиента")
     void createClient() throws Exception {
         int databaseSizeBeforeCreate = clientRepository.findAll().size();
 
@@ -110,6 +112,7 @@ class ClientResourceTest {
     }
 
     @Test
+    @DisplayName("Получение списка клиентов")
     void testListClients() throws Exception {
 
         ResultActions result = this.mvc.perform(MockMvcRequestBuilders.get("/"));
@@ -122,6 +125,7 @@ class ClientResourceTest {
 
     @Test
     @Transactional
+    @DisplayName("Получение данных клиента")
     void getClient() throws Exception {
 
         clientRepository.saveAndFlush(client);
@@ -147,6 +151,7 @@ class ClientResourceTest {
 
     @Test
     @Transactional
+    @DisplayName("Обновление клиента")
     void updateClient() throws Exception {
 
         clientService.save(client);
@@ -181,6 +186,7 @@ class ClientResourceTest {
 
     @Test
     @Transactional
+    @DisplayName("Удаление клиента")
     void deleteClient() throws Exception {
         clientService.save(client);
 
