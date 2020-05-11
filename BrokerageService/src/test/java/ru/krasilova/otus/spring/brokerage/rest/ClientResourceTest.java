@@ -2,6 +2,7 @@ package ru.krasilova.otus.spring.brokerage.rest;
 
 
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -33,6 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = BrokerageApplication.class)
 
 @AutoConfigureMockMvc
+@WithMockUser(
+        username = "admin",
+        password = "1"
+)
 @DisplayName("Тест контроллера ClientResource")
 class ClientResourceTest {
 

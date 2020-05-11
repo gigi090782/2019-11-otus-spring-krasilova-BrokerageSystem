@@ -71,3 +71,9 @@ INSERT  INTO contract_market_place (id, contract_id, market_place_type, date_add
 INSERT  INTO contract_market_place (id, contract_id, market_place_type, date_add) VALUES (21 ,10 , 'Curr', '2019-12-26');
 INSERT  INTO contract_market_place (id, contract_id, market_place_type, date_add) VALUES (22 ,11 , 'Curr', '2019-12-26');
 INSERT  INTO contract_market_place (id, contract_id, market_place_type, date_add) VALUES (23 ,12 , 'Term', '2019-12-26');
+
+insert into USER(  username, password, accountnonexpired,accountnonlocked,credentialsnonexpired,enabled  ) values ('admin','admin', true,true,true,true ),('gigi','gigi1', true,true,true,true  );
+insert into USER(  username, password, accountnonexpired,accountnonlocked,credentialsnonexpired,enabled  )  values ('user','1', true,true,true,true  );
+
+
+
