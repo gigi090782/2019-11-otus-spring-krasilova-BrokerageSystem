@@ -33,3 +33,4 @@ build/
 app.log
 *.log
 *.log.2020-05-09.0.gz
+*.log.*

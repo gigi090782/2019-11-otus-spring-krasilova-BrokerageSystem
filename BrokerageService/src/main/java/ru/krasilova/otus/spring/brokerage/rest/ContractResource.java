@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -59,7 +60,10 @@ public class ContractResource {
 
 
     @GetMapping("/contracts")
-    public String getListContracts(Model model) {
+    public String getListContracts(Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Contract> contracts = contractService.findAll();
         model.addAttribute("contracts", contracts);
         return "listContracts";
@@ -67,7 +71,10 @@ public class ContractResource {
 
 
     @GetMapping("/clientcontracts")
-    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model) {
+    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Contract> contracts = contractService.findAllByClientId(clientid);
         model.addAttribute("contracts", contracts);
         Client client = clientService.findOne(clientid).orElseThrow(NotFoundException::new);

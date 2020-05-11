@@ -21,6 +21,7 @@ import ru.krasilova.otus.spring.brokerage.services.ClientService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,7 +57,10 @@ public class ClientResource {
 
 
     @GetMapping("/")
-    public String getListClient(Model model) {
+    public String getListClient(Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
         return "listСlients";
