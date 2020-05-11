@@ -74,7 +74,7 @@
 <body>
 
 
-<!--<form id="editcontract-form" th:action="@{/saveContract}" method="post" action="listContracts.html" th:object="${contract}">-->
+
     <form id="editcontract-form" th:action="@{/saveClientContract(clientid=${contract.client.id})}" method="post" action="listClientContracts.html" th:object="${contract}">
     <div class="panel panel-default text-center">
         <div class="panel-heading">
@@ -83,15 +83,7 @@
     </div>
 
         <input  id="id-input" name="id" type="hidden" readonly="readonly" th:value="*{id}" value="1"/>
-<!--    <div class="row">-->
-<!--        <label for="id-input">ID:</label>-->
-<!--        <input id="id-input" name="id" type="text" readonly="readonly" th:value="*{id}" value="1"/>-->
-<!--    </div>-->
 
-<!--    <div class="row">-->
-<!--        <label for="name-input">Дата добавления:</label>-->
-<!--        <input  id="name-input" size="20" name="dateAdd" type="text"   readonly="readonly" th:value="*{dateAdd}" value="01.01.2020"/>-->
-<!--    </div>-->
     <div class="row">
         <label for="channeltype-select">Канал:</label>
         <select width = "300" name = "channelType" id="channeltype-select" class="select" th:field="*{channelType}"  >
@@ -107,15 +99,7 @@
         <label for="client-input">Клиент:</label>
         <input  size= "100" id="client-input" name="id" type="text" readonly="readonly" th:value="*{client.toString()}" value="1"/>
     </div>
-<!--        <div class="row">-->
-<!--            <label for="client-select">Клиент:</label>-->
-<!--            <select width = "300" name = "client" id="client-select" class="select" th:field="*{client}"  >-->
 
-<!--                <option   th:each="cl : ${clients}"-->
-<!--                        th:value="${cl.getId()}"-->
-<!--                        th:text="(${cl.getFirstName()}+' '+${cl.getSecondName()}+' '+${cl.getLastName()})">Клиент</option>-->
-<!--            </select>-->
-<!--        </div>-->
 
     <h2> Торговые площадки:</h2>
     <fieldset id="marketplaces">
@@ -131,8 +115,7 @@
                 </option>
             </select>
 
-<!--            <label th:for="|contract.contractMarketPlaces[${stat.index}].dateAdd|">Дата добавления:</label>-->
-<!--            <input readonly="readonly" size="25" th:field="${contract.contractMarketPlaces[__${stat.index}__].dateAdd}">-->
+
             <button type="button" name="removePlace" th:value="${stat.index}">Удалить
 
             </button>
