@@ -1,8 +1,8 @@
 package ru.krasilova.otus.spring.brokerage.models.enumeration;
 
 public enum ContactType {
-    Mobile("Мобильный телефон"),
-    Email("Email");
+    MOBILE("Мобильный телефон"),
+    EMAIL("Email");
 
     private String value;
 

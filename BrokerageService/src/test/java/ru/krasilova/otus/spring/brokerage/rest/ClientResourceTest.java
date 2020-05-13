@@ -122,7 +122,7 @@ class ClientResourceTest {
 
         ResultActions result = this.mvc.perform(MockMvcRequestBuilders.get("/"));
 
-        result.andExpect(MockMvcResultMatchers.view().name("listСlients"))
+        result.andExpect(MockMvcResultMatchers.view().name("listClients"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("clients"));
 
     }
@@ -136,7 +136,7 @@ class ClientResourceTest {
         clientRepository.saveAndFlush(client);
         restClientMockMvc.perform(get("/api/clients/{id}", client.getId()))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(client.getId().intValue()))
                 .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))

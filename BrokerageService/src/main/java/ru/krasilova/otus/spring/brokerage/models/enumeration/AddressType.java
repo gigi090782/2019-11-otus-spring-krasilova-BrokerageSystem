@@ -1,8 +1,8 @@
 package ru.krasilova.otus.spring.brokerage.models.enumeration;
 
 public enum AddressType {
-    Post("Почтовый"),
-    Registration("Регистрации");
+    POST("Почтовый"),
+    REGISTRATION("Регистрации");
 
     private String value;
 

@@ -1,9 +1,9 @@
 package ru.krasilova.otus.spring.brokerage.models.enumeration;
 
 public enum MarketPlaceType {
-    Fond("Фондовый рынок"),
-    Curr("Валютный рынок"),
-    Term("Срочный рынок");
+    FOND("Фондовый рынок"),
+    CURR("Валютный рынок"),
+    TERM("Срочный рынок");
 
     private String value;
 

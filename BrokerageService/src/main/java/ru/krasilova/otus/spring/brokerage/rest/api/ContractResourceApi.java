@@ -6,12 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
 import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.services.ContractMarketPlaceService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
 import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
@@ -33,18 +31,11 @@ public class ContractResourceApi {
     private String applicationName;
 
 
-    private static final String AJAX_HEADER_NAME = "X-Requested-With";
-    private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
-
-
-    private final ClientService clientService;
     private final ContractService contractService;
 
 
     @Autowired
-    public ContractResourceApi(ClientService clientService, ContractService contractService,
-                               ContractMarketPlaceService marketPlaceService) {
-        this.clientService = clientService;
+    public ContractResourceApi(ContractService contractService) {
         this.contractService = contractService;
     }
 

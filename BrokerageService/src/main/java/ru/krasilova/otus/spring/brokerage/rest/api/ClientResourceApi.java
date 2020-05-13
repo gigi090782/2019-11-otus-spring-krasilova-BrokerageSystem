@@ -10,7 +10,6 @@ import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
 import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
 
@@ -28,9 +27,6 @@ public class ClientResourceApi {
 
     private static final String ENTITY_NAME = "client";
 
-    private static final String AJAX_HEADER_NAME = "X-Requested-With";
-    private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
-
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -38,7 +34,7 @@ public class ClientResourceApi {
     private final ClientService clientService;
 
     @Autowired
-    public ClientResourceApi(ClientService clientService, ContractService contractService) {
+    public ClientResourceApi(ClientService clientService) {
         this.clientService = clientService;
     }
 

@@ -2,7 +2,7 @@ package ru.krasilova.otus.spring.brokerage.models.enumeration;
 
 public enum ChannelType {
     VSP("ВСП"),
-    Online("ОНлайн");
+    ONLINE("ОНлайн");
 
     private String value;
 

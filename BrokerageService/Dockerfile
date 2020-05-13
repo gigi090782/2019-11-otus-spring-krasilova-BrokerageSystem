@@ -1,5 +1,5 @@
-
 FROM maven:3.5.4-jdk-8
+
 MAINTAINER Marina Krasilova <filatovamarina@mail.ru>
 
 ENV DIR=/opt/project

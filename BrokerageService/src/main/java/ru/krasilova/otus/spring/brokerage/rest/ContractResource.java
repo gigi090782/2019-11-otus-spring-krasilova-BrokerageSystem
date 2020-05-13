@@ -3,6 +3,9 @@ package ru.krasilova.otus.spring.brokerage.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
 import ru.krasilova.otus.spring.brokerage.models.ContractMarketPlace;
@@ -10,36 +13,19 @@ import ru.krasilova.otus.spring.brokerage.models.enumeration.ChannelType;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.MarketPlaceType;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.NotFoundException;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.services.ContractMarketPlaceService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
-import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
-import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
-import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 
 @Controller
 public class ContractResource {
-
-    private final Logger log = LoggerFactory.getLogger(ContractResource.class);
-
-    private static final String ENTITY_NAME = "contract";
-
-    @Value("${spring.application.name}")
-    private String applicationName;
-
 
     private static final String AJAX_HEADER_NAME = "X-Requested-With";
     private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
@@ -50,8 +36,7 @@ public class ContractResource {
 
 
     @Autowired
-    public ContractResource(ClientService clientService, ContractService contractService,
-                            ContractMarketPlaceService marketPlaceService) {
+    public ContractResource(ClientService clientService, ContractService contractService) {
         this.clientService = clientService;
         this.contractService = contractService;
     }
