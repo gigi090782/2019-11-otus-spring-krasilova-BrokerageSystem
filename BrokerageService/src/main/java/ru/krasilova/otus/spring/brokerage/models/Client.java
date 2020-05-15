@@ -45,15 +45,18 @@ public class Client implements Serializable {
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     private String dateAdd;
 
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<>();
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Contact> contacts = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Contract> contracts = new ArrayList<>();
 

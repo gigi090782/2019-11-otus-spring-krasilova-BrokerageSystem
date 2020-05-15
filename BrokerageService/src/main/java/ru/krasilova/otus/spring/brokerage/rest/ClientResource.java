@@ -174,6 +174,7 @@ public class ClientResource {
     ) throws ParseException, BadBirthDate {
         client.getAddresses().forEach(a -> a.setClient(client));
         client.getContacts().forEach(c -> c.setClient(client));
+        client.setContracts(contractService.findAllByClientId(client.getId()));
         if (client.getId() == null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
