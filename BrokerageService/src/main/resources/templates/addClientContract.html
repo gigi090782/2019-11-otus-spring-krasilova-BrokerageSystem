@@ -90,7 +90,8 @@
 
             <option   th:each="ch : ${allchannelTypes}"
                       th:value="${ch.name()}"
-                      th:text="(${ch.name()})">Канал</option>
+                      th:text="(${ch.getValue()})">Канал</option>
+
         </select>
     </div>
 
@@ -131,7 +132,7 @@
     </div>
 
 </form>
-<form id="listClientContracts" th:action="@{/clientcontracts(clientid=${contract.client.id})}" action="listClientContracts.html">
+<form id="listClientContracts" th:action="@{/clientcontracts(clientid=${client.id})}" action="listClientContracts.html">
     <input type="submit" class="b1" value="Вернуться к списку контрактов клиента"/>
 </form>
 
