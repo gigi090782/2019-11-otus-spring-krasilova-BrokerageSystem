@@ -1,12 +1,15 @@
 package ru.krasilova.otus.spring.brokerage.models;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class ContractMarketPlaceTest {
+@DisplayName("Тест модели ContractMarketPlace")
+class ContractMarketPlaceTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(ContractMarketPlace.class);
         ContractMarketPlace contractMarketPlace1 = new ContractMarketPlace();
         contractMarketPlace1.setId(1L);

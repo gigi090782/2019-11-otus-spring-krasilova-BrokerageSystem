@@ -1,23 +1,17 @@
 package ru.krasilova.otus.spring.brokerage.repositories;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import ru.krasilova.otus.spring.brokerage.models.Contact;
-import ru.krasilova.otus.spring.brokerage.models.Contract;
-
-
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
+import ru.krasilova.otus.spring.brokerage.models.Contract;
 
 import java.util.List;
 
-
-@SuppressWarnings("unused")
-@RepositoryRestResource(path = "contract")
-
+@Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
+    @EntityGraph(value = "clientJoin", type = EntityGraph.EntityGraphType.FETCH)
     List<Contract> findAll();
+
     List<Contract> findAllByClientId(Long id);
 
 }

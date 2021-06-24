@@ -1,14 +1,16 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.krasilova.otus.spring.brokerage.models.enumeration.AddressType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class AddressTest {
+@DisplayName("Тест модели Address")
+class AddressTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Address.class);
         Address address1 = new Address();
         address1.setId(1L);

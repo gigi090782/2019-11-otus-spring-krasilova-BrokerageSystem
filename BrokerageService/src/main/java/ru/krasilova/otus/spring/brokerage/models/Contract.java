@@ -1,14 +1,10 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 
@@ -26,6 +22,9 @@ import ru.krasilova.otus.spring.brokerage.models.enumeration.ChannelType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "contract")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "clientJoin", attributeNodes = {
+                @NamedAttributeNode("client")})})
 public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,14 +41,12 @@ public class Contract implements Serializable {
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     private String dateAdd;
 
-
-    @OneToMany(targetEntity = ContractMarketPlace.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "contract_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "contract", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<ContractMarketPlace>();
+    private List<ContractMarketPlace> contractMarketPlaces = new ArrayList<>();
 
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 

@@ -1,7 +1,6 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import ru.krasilova.otus.spring.brokerage.utils.*;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;
@@ -22,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.krasilova.otus.spring.brokerage.utils.UtilRandomSleep.getRandomSleep;
 
 
 @Service
@@ -47,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client);
     }
 
-    public void checkClient(Client client) throws BadBirthDate, ParseException {
+    private void checkClient(Client client) throws BadBirthDate, ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date datetoday = new Date();
         Date birthdate = new SimpleDateFormat("yyyy-MM-dd").parse(client.getBirthDate());
@@ -72,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
             fallbackMethod = "getReserveListClients")
     public List<Client> findAll() {
         log.debug("Request to get all Clients");
-        getRandomSleep();
+
         return clientRepository.findAll();
     }
 

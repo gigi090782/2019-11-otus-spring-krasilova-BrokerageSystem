@@ -1,13 +1,16 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ContactTest {
+@DisplayName("Тест модели Contact")
+class ContactTest {
 
     @Test
-    public void equalsVerifier() throws Exception {
+    void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Contact.class);
         Contact contact1 = new Contact();
         contact1.setId(1L);

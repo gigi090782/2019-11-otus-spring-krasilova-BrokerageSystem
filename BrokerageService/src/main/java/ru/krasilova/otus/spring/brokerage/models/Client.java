@@ -19,15 +19,7 @@ import java.util.stream.Collectors;
 @Entity
 @Data
 @Cacheable(false)
-
 @Table(name = "client")
-@NamedEntityGraphs({
-        @NamedEntityGraph(name = "allJoin", attributeNodes = {
-                @NamedAttributeNode("addresses"),
-                @NamedAttributeNode("contacts"),
-                @NamedAttributeNode("contracts")
-        })})
-
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,21 +46,19 @@ public class Client implements Serializable {
     private String dateAdd;
 
 
-    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Address> addresses = new ArrayList<Address>();
-
-   @OneToMany(targetEntity = Contact.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   @JoinColumn(name = "client_id")
-   @Fetch(value = FetchMode.SUBSELECT)
-    private List<Contact> contacts = new ArrayList<Contact>();
+    private List<Address> addresses = new ArrayList<>();
 
 
-    @OneToMany(targetEntity = Contract.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Contract> contracts = new ArrayList<Contract>();
+    private List<Contact> contacts = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client", orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Contract> contracts = new ArrayList<>();
 
 
     public Long getId() {

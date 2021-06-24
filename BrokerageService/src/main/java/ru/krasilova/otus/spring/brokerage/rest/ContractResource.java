@@ -3,6 +3,9 @@ package ru.krasilova.otus.spring.brokerage.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
 import ru.krasilova.otus.spring.brokerage.models.ContractMarketPlace;
@@ -10,36 +13,19 @@ import ru.krasilova.otus.spring.brokerage.models.enumeration.ChannelType;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.MarketPlaceType;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.NotFoundException;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.services.ContractMarketPlaceService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
-import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
-import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
-import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 
 @Controller
 public class ContractResource {
-
-    private final Logger log = LoggerFactory.getLogger(ContractResource.class);
-
-    private static final String ENTITY_NAME = "contract";
-
-    @Value("${spring.application.name}")
-    private String applicationName;
-
 
     private static final String AJAX_HEADER_NAME = "X-Requested-With";
     private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
@@ -47,46 +33,22 @@ public class ContractResource {
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final ContractMarketPlaceService marketPlaceService;
 
 
     @Autowired
-    public ContractResource(ClientService clientService, ContractService contractService,
-                            ContractMarketPlaceService marketPlaceService) {
+    public ContractResource(ClientService clientService, ContractService contractService) {
         this.clientService = clientService;
-        this.marketPlaceService = marketPlaceService;
         this.contractService = contractService;
     }
 
 
-    @PostMapping("/contracts")
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) throws URISyntaxException {
-        log.debug("REST request to save Contract : {}", contract);
-        if (contract.getId() != null) {
-            throw new BadRequestAlertException("A new contract cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Contract result = contractService.save(contract);
-        return ResponseEntity.created(new URI("/api/contracts/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
-    }
-
-
-    @PutMapping("/contracts")
-    public ResponseEntity<Contract> updateContract(@RequestBody Contract contract) throws URISyntaxException {
-        log.debug("REST request to update Contract : {}", contract);
-        if (contract.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Contract result = contractService.save(contract);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contract.getId().toString()))
-                .body(result);
-    }
 
 
     @GetMapping("/contracts")
-    public String getListContracts(Model model) throws InterruptedException {
+    public String getListContracts(Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Contract> contracts = contractService.findAll();
         model.addAttribute("contracts", contracts);
         return "listContracts";
@@ -94,7 +56,10 @@ public class ContractResource {
 
 
     @GetMapping("/clientcontracts")
-    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model) throws InterruptedException {
+    public String getListClientContracts(@RequestParam("clientid") long clientid, Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Contract> contracts = contractService.findAllByClientId(clientid);
         model.addAttribute("contracts", contracts);
         Client client = clientService.findOne(clientid).orElseThrow(NotFoundException::new);
@@ -103,23 +68,9 @@ public class ContractResource {
     }
 
 
-    @GetMapping("/contracts/{id}")
-    public ResponseEntity<Contract> getContract(@PathVariable Long id) {
-        log.debug("REST request to get Contract : {}", id);
-        Optional<Contract> contract = contractService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(contract);
-    }
-
-
-    @DeleteMapping("/contracts/{id}")
-    public ResponseEntity<Void> deleteContract(@PathVariable Long id) {
-        log.debug("REST request to delete Contract : {}", id);
-        contractService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
-    }
 
     @GetMapping("/addcontract")
-    public String getAddContract(Model model) throws ParseException {
+    public String getAddContract(Model model) {
         Contract contract = new Contract();
         model.addAttribute("contract", contract);
         addModelsForContract(model);
@@ -128,7 +79,7 @@ public class ContractResource {
 
 
     @GetMapping("/addclientcontract")
-    public String getAddClientContract(@RequestParam("clientid") long clientid, Model model) throws ParseException {
+    public String getAddClientContract(@RequestParam("clientid") long clientid, Model model) {
         Client client = clientService.findOne(clientid).get();
         Contract contract = new Contract();
         contract.setClient(client);
@@ -160,7 +111,7 @@ public class ContractResource {
 
 
 
-    public void addModelsForContract(Model model) {
+    private void addModelsForContract(Model model) {
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
         List<ChannelType> channelTypes = Arrays.asList(ChannelType.values());
@@ -184,7 +135,7 @@ public class ContractResource {
     }
 
 
-    public String returnContract(Contract contract, Model model, HttpServletRequest request) {
+    private String returnContract(Contract contract, Model model, HttpServletRequest request) {
         List<MarketPlaceType> marketPlaceTypes = Arrays.asList(MarketPlaceType.values());
         model.addAttribute("allmarketPlaceTypes", marketPlaceTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {

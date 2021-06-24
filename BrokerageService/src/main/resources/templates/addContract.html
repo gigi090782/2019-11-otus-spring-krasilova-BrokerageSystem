@@ -82,22 +82,15 @@
     </div>
     <input id="id-input" name="id" type="hidden" readonly="readonly" th:value="*{id}" value="1"/>
 
-<!--    <div class="row">-->
-<!--        <label for="id-input">ID:</label>-->
-<!--        <input id="id-input" name="id" type="text" readonly="readonly" th:value="*{id}" value="1"/>-->
-<!--    </div>-->
 
-<!--    <div class="row">-->
-<!--        <label for="name-input">Дата добавления:</label>-->
-<!--        <input  id="name-input" size="20" name="dateAdd" type="text"   readonly="readonly" th:value="*{dateAdd}" value="01.01.2020"/>-->
-<!--    </div>-->
     <div class="row">
         <label for="channeltype-select">Канал:</label>
         <select width = "300" name = "channelType" id="channeltype-select" class="select" th:field="*{channelType}"  >
 
             <option   th:each="ch : ${allchannelTypes}"
                       th:value="${ch.name()}"
-                      th:text="(${ch.name()})">Канал</option>
+                      th:text="(${ch.getValue()})">Канал</option>
+
         </select>
     </div>
 

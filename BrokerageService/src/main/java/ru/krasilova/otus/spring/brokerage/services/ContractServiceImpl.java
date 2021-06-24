@@ -3,16 +3,16 @@ package ru.krasilova.otus.spring.brokerage.services;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import ru.krasilova.otus.spring.brokerage.models.Contract;
-import ru.krasilova.otus.spring.brokerage.services.ContractService;
 import ru.krasilova.otus.spring.brokerage.repositories.ContractRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import static ru.krasilova.otus.spring.brokerage.utils.UtilRandomSleep.getRandomSleep;
+
 
 @Service
 @Transactional
@@ -45,11 +45,10 @@ public class ContractServiceImpl implements ContractService {
             fallbackMethod = "getReserveListContracts")
     public List<Contract> findAll() {
         log.debug("Request to get all Contracts");
-        getRandomSleep();
         return contractRepository.findAll();
     }
 
-    public List<Contract> getReserveListContracts( ) {
+    public List<Contract> getReserveListContracts() {
         return Collections.emptyList();
     }
 
@@ -78,8 +77,7 @@ public class ContractServiceImpl implements ContractService {
         return contractRepository.findAllByClientId(id);
     }
 
-    public String getWaitResponse()
-    {
+    public String getWaitResponse() {
         return "Сервер не отвечает! Попробуйте еще раз попозже!";
     }
 

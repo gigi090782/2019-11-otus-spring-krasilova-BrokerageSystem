@@ -1,11 +1,8 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +31,7 @@ public class ContractMarketPlace implements Serializable {
     @Column(name = "date_add")
     private String dateAdd;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 

@@ -1,12 +1,11 @@
 package ru.krasilova.otus.spring.brokerage.rest;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.krasilova.otus.spring.brokerage.models.Address;
 import ru.krasilova.otus.spring.brokerage.models.Client;
 import ru.krasilova.otus.spring.brokerage.models.Contact;
@@ -15,102 +14,54 @@ import ru.krasilova.otus.spring.brokerage.models.enumeration.AddressType;
 import ru.krasilova.otus.spring.brokerage.models.enumeration.ContactType;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.BadBirthDate;
 import ru.krasilova.otus.spring.brokerage.rest.exceptions.NotFoundException;
-import ru.krasilova.otus.spring.brokerage.services.AddressService;
 import ru.krasilova.otus.spring.brokerage.services.ClientService;
-import ru.krasilova.otus.spring.brokerage.rest.errors.BadRequestAlertException;
-import ru.krasilova.otus.spring.brokerage.services.ContactService;
 import ru.krasilova.otus.spring.brokerage.services.ContractService;
-import ru.krasilova.otus.spring.brokerage.utils.HeaderUtil;
-import ru.krasilova.otus.spring.brokerage.utils.ResponseUtil;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Action;
-import java.net.URI;
-import java.net.URISyntaxException;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Controller
-
 public class ClientResource {
-
-    private final Logger log = LoggerFactory.getLogger(ClientResource.class);
-
-    private static final String ENTITY_NAME = "client";
 
     private static final String AJAX_HEADER_NAME = "X-Requested-With";
     private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
 
 
-    @Value("${spring.application.name}")
-    private String applicationName;
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final AddressService addressService;
-    private final ContactService contactService;
 
     @Autowired
-    public ClientResource(ClientService clientService, ContractService contractService,
-                          AddressService addressService, ContactService contactService) {
+    public ClientResource(ClientService clientService, ContractService contractService) {
         this.clientService = clientService;
-        this.addressService = addressService;
-        this.contactService = contactService;
         this.contractService = contractService;
     }
 
 
-    @PostMapping("/clients")
-    public ResponseEntity<Client> createClient(@RequestBody Client client) throws URISyntaxException, ParseException, BadBirthDate {
-        log.debug("REST request to save Client : {}", client);
-        if (client.getId() != null) {
-            throw new BadRequestAlertException("A new client cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Client result = clientService.save(client);
-        return ResponseEntity.created(new URI("/clients/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
-    }
 
-
-    @PutMapping("/clients")
-    public ResponseEntity<Client> updateClient(@RequestBody Client client) throws URISyntaxException, ParseException, BadBirthDate {
-        log.debug("REST request to update Client : {}", client);
-        if (client.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Client result = clientService.save(client);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, client.getId().toString()))
-                .body(result);
-    }
-
-    @GetMapping("/clients")
-    public ResponseEntity<List<Client>> getAllClients() {
-        log.debug("REST request to get a page of Clients");
-        List<Client> clients = clientService.findAll();
-        return ResponseEntity.ok().body(clients);
-    }
 
     @GetMapping("/")
-    public String getListClient(Model model) throws InterruptedException {
+    public String getListClient(Model model, HttpServletResponse response) {
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Pragma","no-cache");
+        response.addHeader("Expires","0");
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
-        return "listСlients";
+        return "listClients";
     }
 
     @GetMapping("/addclient")
-    public String getAddClient(Model model) throws ParseException {
+    public String getAddClient(Model model) {
         Client client = new Client();
         model.addAttribute("client", client);
-        List<Contract> contracts = new ArrayList<Contract>();
+        List<Contract> contracts = new ArrayList<>();
         model.addAttribute("contracts", contracts);
         return addModelsForClient(model);
     }
@@ -124,7 +75,7 @@ public class ClientResource {
         return addModelsForClient(model);
     }
 
-    public String addModelsForClient(Model model) {
+    private String addModelsForClient(Model model) {
         List<ContactType> contactTypes = Arrays.asList(ContactType.values());
         model.addAttribute("contacttypes", contactTypes);
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
@@ -132,20 +83,8 @@ public class ClientResource {
         return "editClient";
     }
 
-    @GetMapping("/clients/{id}")
-    public ResponseEntity<Client> getClient(@PathVariable Long id) {
-        log.debug("REST request to get Client : {}", id);
-        Optional<Client> client = clientService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(client);
-    }
 
 
-    @DeleteMapping("/clients/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        log.debug("REST request to delete Client : {}", id);
-        clientService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
-    }
 
 
     @PostMapping("/client/removecontract")
@@ -154,7 +93,7 @@ public class ClientResource {
         return returnClientContracts(client, model, request);
     }
 
-    public String returnClientContracts(Client client, Model model, HttpServletRequest request) {
+    private String returnClientContracts(Client client, Model model, HttpServletRequest request) {
         List<Contract> contracts = contractService.findAllByClientId(client.getId());
         model.addAttribute("contracts", contracts);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -178,7 +117,7 @@ public class ClientResource {
     }
 
 
-    public String returnClientAddresses(Client client, Model model, HttpServletRequest request) {
+    private String returnClientAddresses(Client client, Model model, HttpServletRequest request) {
         List<AddressType> addressTypes = Arrays.asList(AddressType.values());
         model.addAttribute("addresstypes", addressTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -203,7 +142,7 @@ public class ClientResource {
     }
 
 
-    public String returnClientContacts(Client client, Model model, HttpServletRequest request) {
+    private String returnClientContacts(Client client, Model model, HttpServletRequest request) {
         List<ContactType> contactTypes = Arrays.asList(ContactType.values());
         model.addAttribute("contacttypes", contactTypes);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
@@ -220,18 +159,11 @@ public class ClientResource {
         List<Client> clients = clientService.findAll();
         model.addAttribute("clients", clients);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
-            return "listСlients::#clientstable";
+            return "listClients::#clientstable";
         } else {
-            return "listСlients";
+            return "listClients";
         }
 
-    }
-
-
-    @PostMapping(params = "save", path = {"/client", "/editclient/{id}"})
-    public String saveClient(Client client) throws ParseException, BadBirthDate {
-        clientService.save(client);
-        return "client";
     }
 
 
@@ -240,8 +172,9 @@ public class ClientResource {
             Client client,
             Model model
     ) throws ParseException, BadBirthDate {
-        client.getAddresses().stream().forEach(a -> a.setClient(client));
-        client.getContacts().stream().forEach(c -> c.setClient(client));
+        client.getAddresses().forEach(a -> a.setClient(client));
+        client.getContacts().forEach(c -> c.setClient(client));
+        client.setContracts(contractService.findAllByClientId(client.getId()));
         if (client.getId() == null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();

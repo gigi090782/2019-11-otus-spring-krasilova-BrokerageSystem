@@ -1,7 +1,6 @@
 package ru.krasilova.otus.spring.brokerage.services;
 
 import ru.krasilova.otus.spring.brokerage.models.ContractMarketPlace;
-import ru.krasilova.otus.spring.brokerage.services.ContractMarketPlaceService;
 import ru.krasilova.otus.spring.brokerage.repositories.ContractMarketPlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

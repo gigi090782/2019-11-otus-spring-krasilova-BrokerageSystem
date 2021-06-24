@@ -14,20 +14,38 @@ spring:
 
   application:
     name: 'BrokerageApplication'
-  show-sql: true
+
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+
+
   data:
     rest:
       basePath: /datarest
+  h2:
+    console:
+       enabled:  true
+
+  datasource:
+    initialization-mode: always
+    data: classpath:import.sql
+
 server:
   port: 8080
 logging:
   file: app.log
 
-execution:
-  isolation:
-    thread:
-      timeoutInMilliseconds: 1000
-
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
 
 
 

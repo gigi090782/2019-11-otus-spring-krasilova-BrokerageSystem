@@ -1,11 +1,8 @@
 package ru.krasilova.otus.spring.brokerage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +31,7 @@ public class Contact implements Serializable {
     @Column(name = "value")
     private String value;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 

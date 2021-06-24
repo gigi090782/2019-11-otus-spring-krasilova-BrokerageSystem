@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Edit client</title>
@@ -123,7 +124,7 @@
 
                 <option th:each="adr : ${addresstypes}"
                         th:value="${adr.name()}"
-                        th:text="(${adr.name()})">Тип
+                        th:text="(${adr.getValue()})">Тип
                 </option>
             </select>
 
@@ -143,7 +144,7 @@
 
                 <option th:each="con : ${contacttypes}"
                         th:value="${con.name()}"
-                        th:text="(${con.name()})">Тип
+                        th:text="(${con.getValue()})">Тип
                 </option>
             </select>
             <label th:for="|client.contacts[${stat.index}].value|">Контакт:</label>
@@ -194,7 +195,7 @@
 
 
 </form>
-<form id="listClients" th:action="@{/}" action="listСlients.html">
+<form id="listClients" th:action="@{/}" action="listClients.html">
     <input type="submit" class="b1" value="Вернуться на главную страницу"/>
 </form>
 
@@ -276,6 +277,7 @@
     };
 
     setHandlersContract();
+
 
 </script>
 
